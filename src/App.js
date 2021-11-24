@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from "react";
 import {Routes,Route,Link,Outlet} from 'react-router-dom';
-import FormularioCarta from "./components/FormularioCarta";
 
 
 function Encabezado(){
@@ -71,15 +70,62 @@ function Home(){
                 </div>
       </form> 
     </div>
-
+    <Outlet/>
     </div>
   )
 }
 
-function Doctores(){
-  return(
-    <div>
-      <div class="row">
+
+
+class Doctores extends React.Component{
+  constructor(){
+    super()
+    this.state={
+      info:null
+    }
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:8080/pacientes')
+      .then(res=>res.json())
+        .then(datos=>{
+          console.log(datos)
+          this.setState({
+            info:datos
+          })
+        })
+        .catch(err=>{
+          console.log("Servidor desconectado")
+          console.log(err)
+        })
+  }
+
+  componentDidUpdate(){
+    console.log("Componente actualizado")
+  }
+  
+  async comunica(info){
+    //Consumiendo el servicio POST  
+    const respuesta = await fetch('http://localhost:8080/paciente',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          mensaje:"Enviando JSON"
+        })
+      })
+    
+      //Imprimir lo que responde el servidor
+      const data = await respuesta.json()
+      console.log(data)
+  }
+
+  render(){
+    console.log(this.state)
+    return(
+      <div>
+            <div class="row">
                   <div class="col-lg-6">
                       <div class="form-control">
                           <label class="form-label">Doctor 1</label>
@@ -93,7 +139,6 @@ function Doctores(){
                       </div>
                   </div>
               </div>
-
               <div class="row">
                   <div class="col-lg-6">
                       <div class="form-control">
@@ -123,62 +168,7 @@ function Doctores(){
                       </div>
                   </div>
               </div> 
-    </div>
-  )
-}
-
-
-class Juego extends React.Component{
-  constructor(){
-    super()
-    this.state={
-      info:null
-    }
-  }
-
-  componentDidMount(){
-    fetch('http://localhost:8080/cartas')
-      .then(res=>res.json())
-        .then(datos=>{
-          //console.log(datos)
-          this.setState({
-            info:datos
-          })
-        })
-        .catch(err=>{
-          console.log("Servidor desconectado")
-          console.log(err)
-        })
-  }
-
-  componentDidUpdate(){
-    console.log("Componente actualizado")
-  }
-  
-  async comunica(info){
-    //Consumiendo el servicio POST  
-    const respuesta = await fetch('http://localhost:8080/carta',{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-          mensaje:"Enviando JSON"
-        })
-      })
-    
-      //Imprimir lo que responde el servidor
-      const data = await respuesta.json()
-      console.log(data)
-  }
-
-  render(){
-    console.log(this.state)
-    return(
-      <div>
-
-        {/*<button type="button" onClick={this.comunica.bind(this,"hola")} className="btn btn-primary">Consume POST</button>*/}
-        <FormularioCarta></FormularioCarta>
+      <button type ="button" onClick={this.comunica(this.state)} className="btn btn-primary">Consume Post</button>
       </div>
     )
   }
@@ -190,7 +180,6 @@ function App() {
         <Encabezado/>
         <Routes>
             <Route path="/" element={<Home/>}>
-            <Route path="juego" element={<Juego/>}/>
             </Route>
             <Route path="/Doctores" element={<Doctores/>}/>
         </Routes>
