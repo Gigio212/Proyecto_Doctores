@@ -177,7 +177,7 @@ class Doctores extends React.Component{
 function Doc1Pacientes(){
   return(
     <div>
-      Pacientes del Jaime
+      Pacientes del Doctor Jaime
     </div>
   )
 }
@@ -186,7 +186,7 @@ function Doc1Pacientes(){
 function Doc2Pacientes(){
   return(
     <div>
-            Pacientes del Rodrigo
+            Pacientes del Doctor Rodrigo
     </div>
   )
 }
@@ -195,7 +195,7 @@ function Doc2Pacientes(){
 function Doc3Pacientes(){
   return(
     <div>
-            Pacientes del Roberto
+            Pacientes del Doctor Roberto
     </div>
   )
 }
@@ -204,7 +204,7 @@ function Doc3Pacientes(){
 function Doc4Pacientes(){
   return(
     <div>
-            Pacientes del Sofia
+            Pacientes de la Doctora Sofia
     </div>
   )
 }
@@ -213,7 +213,7 @@ function Doc4Pacientes(){
 function Doc5Pacientes(){
   return(
     <div>
-            Pacientes del Ana
+            Pacientes de la Doctora Ana
     </div>
   )
 }
@@ -222,7 +222,7 @@ function Doc5Pacientes(){
 function Doc6Pacientes(){
   return(
     <div>
-            Pacientes del Andrea
+            Pacientes de la Doctora Andrea
     </div>
   )
 }
