@@ -129,13 +129,13 @@ class Doctores extends React.Component{
                   <div class="col-lg-6">
                       <div class="form-control">
                           <label class="form-label">Doctor 1</label>
-                          <button onClick="">  Seleccionar </button>
+                          <button className="nav-link"><Link to="/Doc1Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
                   <div class="col-lg-6">
                       <div class="form-control">
                       <label class="form-label">Doctor 4</label>
-                      <button onClick="">  Seleccionar </button>
+                      <button className="nav-link"><Link to="/Doc4Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
               </div>
@@ -143,13 +143,13 @@ class Doctores extends React.Component{
                   <div class="col-lg-6">
                       <div class="form-control">
                           <label class="form-label">Doctor 2</label>
-                          <button onClick="">  Seleccionar </button>
+                          <button className="nav-link"><Link to="/Doc2Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
                   <div class="col-lg-6">
                       <div class="form-control">
                       <label class="form-label">Doctor 5</label>
-                      <button onClick="">  Seleccionar </button>
+                      <button className="nav-link"><Link to="/Doc5Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
               </div>
@@ -158,13 +158,13 @@ class Doctores extends React.Component{
                   <div class="col-lg-6">
                       <div class="form-control">
                           <label class="form-label">Doctor 3</label>
-                          <button onClick="">  Seleccionar </button>
+                          <button className="nav-link"><Link to="/Doc3Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
                   <div class="col-lg-6">
                       <div class="form-control">
                         <label class="form-label">Doctor 6</label>
-                        <button onClick="">  Seleccionar </button>
+                        <button className="nav-link"><Link to="/Doc6Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
               </div> 
@@ -172,6 +172,59 @@ class Doctores extends React.Component{
       </div>
     )
   }
+}
+
+function Doc1Pacientes(){
+  return(
+    <div>
+      Pacientes del Jaime
+    </div>
+  )
+}
+
+
+function Doc2Pacientes(){
+  return(
+    <div>
+            Pacientes del Rodrigo
+    </div>
+  )
+}
+
+
+function Doc3Pacientes(){
+  return(
+    <div>
+            Pacientes del Roberto
+    </div>
+  )
+}
+
+
+function Doc4Pacientes(){
+  return(
+    <div>
+            Pacientes del Sofia
+    </div>
+  )
+}
+
+
+function Doc5Pacientes(){
+  return(
+    <div>
+            Pacientes del Ana
+    </div>
+  )
+}
+
+
+function Doc6Pacientes(){
+  return(
+    <div>
+            Pacientes del Andrea
+    </div>
+  )
 }
 
 function App() {
@@ -182,6 +235,12 @@ function App() {
             <Route path="/" element={<Home/>}>
             </Route>
             <Route path="/Doctores" element={<Doctores/>}/>
+            <Route path="/Doc1Pacientes" element={<Doc1Pacientes/>}/>
+            <Route path="/Doc2Pacientes" element={<Doc2Pacientes/>}/>
+            <Route path="/Doc3Pacientes" element={<Doc3Pacientes/>}/>
+            <Route path="/Doc4Pacientes" element={<Doc4Pacientes/>}/>
+            <Route path="/Doc5Pacientes" element={<Doc5Pacientes/>}/>
+            <Route path="/Doc6Pacientes" element={<Doc6Pacientes/>}/>
         </Routes>
     </div>
   );
