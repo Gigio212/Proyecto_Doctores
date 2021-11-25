@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React/*{useState,useEffect} */from "react";
 import {Routes,Route,Link,Outlet} from 'react-router-dom';
 
 
@@ -12,7 +12,30 @@ function Encabezado(){
   )
 }
 
-function Home(){
+class Home extends React.Component{
+  constructor(){
+    super()
+    this.state={
+      info:null
+    }
+  }
+  async comunica(){
+    //Consumiendo el servicio POST  
+    const respuesta = await fetch('http://localhost:8080/paciente',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          info: this.state
+        })
+      })
+    
+      //Imprimir lo que responde el servidor
+      const data = await respuesta.json()
+      console.log(data)
+  }
+  render(){
   return(
     <div>  
       <div className="paciente">
@@ -60,8 +83,7 @@ function Home(){
                                     <input type="reset" class="btn btn-primary"></input>
                                 </div>
                                 <div class="col -6">
-                                    <input type="submit" ></input>
-                                    <button className="nav-link"><Link to="/Doctores">Continuar</Link></button>
+                                    <button type="submit" onClick={this.comunica.bind(this)}className="nav-link"><Link to="/Doctores">Enviar</Link></button>
                                 </div>
             
                             </div>
@@ -73,6 +95,7 @@ function Home(){
     <Outlet/>
     </div>
   )
+  }
 }
 
 
@@ -85,44 +108,7 @@ class Doctores extends React.Component{
     }
   }
 
-  componentDidMount(){
-    fetch('http://localhost:8080/pacientes')
-      .then(res=>res.json())
-        .then(datos=>{
-          console.log(datos)
-          this.setState({
-            info:datos
-          })
-        })
-        .catch(err=>{
-          console.log("Servidor desconectado")
-          console.log(err)
-        })
-  }
-
-  componentDidUpdate(){
-    console.log("Componente actualizado")
-  }
-  
-  async comunica(info){
-    //Consumiendo el servicio POST  
-    const respuesta = await fetch('http://localhost:8080/paciente',{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-          mensaje:"Enviando JSON"
-        })
-      })
-    
-      //Imprimir lo que responde el servidor
-      const data = await respuesta.json()
-      console.log(data)
-  }
-
   render(){
-    console.log(this.state)
     return(
       <div>
             <div class="row">
@@ -168,7 +154,6 @@ class Doctores extends React.Component{
                       </div>
                   </div>
               </div> 
-      <button type ="button" onClick={this.comunica(this.state)} className="btn btn-primary">Consume Post</button>
       </div>
     )
   }
