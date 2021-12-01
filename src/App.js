@@ -1,10 +1,12 @@
 import React/*{useState,useEffect} */from "react";
 import {Routes,Route,Link,Outlet} from 'react-router-dom';
+import axios from 'axios';
 
 
 function Encabezado(){
   return(
     <header>
+      Bienvenidos al registro de pacientes
       <nav className="nav">
         <span className="nav-link"><Link to="/">Registro</Link></span>       
       </nav>      
@@ -27,7 +29,13 @@ class Home extends React.Component{
           'Content-Type':'application/json'
         },
         body:JSON.stringify({
-          info: this.state
+          info: this.state/*{
+            nombre:"",
+            edad:"",
+            descripcion:"",
+            nacimiento:"",
+            enfermedad:""
+          }*/
         })
       })
     
@@ -35,55 +43,83 @@ class Home extends React.Component{
       const data = await respuesta.json()
       console.log(data)
   }
+
+  handleInput=(e)=>{
+    const {value,name}=e.target;
+    this.setState({
+        [name]:value
+    });
+}
+
+handleSubmit=(e)=>{
+    e.preventDefault()
+    this.props.onAgregarPaciente(this.state)
+    console.log(this.state)
+}
+
+componentDidMount(){
+  axios.get("http://127.0.0.1:8080/pacientes")
+    .then(result=>{
+      console.log(result)
+      this.setState(result.data);
+    })
+}
+
+agregarPaciente(info){
+  this.setState({
+    cartas:[...this.state.cartas,info]
+  })
+}
+
   render(){
   return(
     <div>  
       <div className="paciente">
-        <form>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-control">
-                            <label class="form-label">Nombre Completo</label>
-                            <input type="text" class="form-control" placeholder="Colocar Nombre" id="Nombre" name="Nombre"></input>
+        <form  className="paciente-body" onSubmit={this.handleSubmit}>
+                <div className="row">
+                    <div className="col-lg-6">
+                        <div className="form-control">
+                            <label className="form-label">Nombre Completo</label>
+                            <input type="text" className="form-control" placeholder="Colocar Nombre" id="Nombre" name="Nombre"></input>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="form-control">
-                            <label class="form-control" for="edad">Colocar Edad</label>
-                            <input type="text" class="form-control" placeholder="Colocar tu edad" id="Edad" name="Edad"></input>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-control">
-                            <label class="form-control" for="Lugar de Nacimiento">Lugar de Nacimiento</label>
-                            <input type="text" class="form-control" placeholder="Lugar de Nacimiento" id="Nacimiento" name="Nacimiento"></input>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-control">
-                            <label class="form-control" for="Enfermedad">Enfermedad</label>
-                            <input type="text" class="form-control" placeholder="Colocar Enfermedad" id="Enfermedad" name="Enfermedad"></input>
+                    <div className="col-lg-6">
+                        <div className="form-control">
+                            <label className="form-control" for="edad">Colocar Edad</label>
+                            <input type="text" className="form-control" placeholder="Colocar tu edad" id="Edad" name="Edad"></input>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-control">
-                            <label class="form-control" for="Descripcion">Descripcion</label>
-                            <input type="text" class="form-control" placeholder="Colocar Descripcion" id="Descripcion" name="Descripcion"></input>
+                <div className="row">
+                    <div className="col-lg-6">
+                        <div className="form-control">
+                            <label className="form-control" for="Lugar de Nacimiento">Lugar de Nacimiento</label>
+                            <input type="text" className="form-control" placeholder="Lugar de Nacimiento" id="Nacimiento" name="Nacimiento"></input>
+                        </div>
+                    </div>
+                    <div className="col-lg-6">
+                        <div className="form-control">
+                            <label className="form-control" for="Enfermedad">Enfermedad</label>
+                            <input type="text" className="form-control" placeholder="Colocar Enfermedad" id="Enfermedad" name="Enfermedad"></input>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col -6">
+                <div className="row">
+                    <div className="col-lg-6">
+                        <div className="form-control">
+                            <label className="form-control" for="Descripcion">Descripcion</label>
+                            <input type="text" className="form-control" placeholder="Colocar Descripcion" id="Descripcion" name="Descripcion"></input>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-lg-6">
+                            <div className="row">
+                                <div className="col -6">
                                     <input type="reset" class="btn btn-primary"></input>
                                 </div>
-                                <div class="col -6">
-                                    <button type="submit" onClick={this.comunica.bind(this)}className="nav-link"><Link to="/Doctores">Enviar</Link></button>
+                                <div className="col -6">
+                                    <button type="submit" className="nav-link"><Link to="/Doctores">Enviar</Link></button>
                                 </div>
             
                             </div>
@@ -108,48 +144,50 @@ class Doctores extends React.Component{
     }
   }
 
+  
+
   render(){
     return(
       <div>
-            <div class="row">
-                  <div class="col-lg-6">
-                      <div class="form-control">
-                          <label class="form-label">Doctor 1</label>
+            <div className="row">
+                  <div className="col-lg-6">
+                      <div className="form-control">
+                          <label className="form-label">Doctor 1</label>
                           <button className="nav-link"><Link to="/Doc1Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
-                  <div class="col-lg-6">
-                      <div class="form-control">
-                      <label class="form-label">Doctor 4</label>
+                  <div className="col-lg-6">
+                      <div className="form-control">
+                      <label className="form-label">Doctor 4</label>
                       <button className="nav-link"><Link to="/Doc4Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
               </div>
-              <div class="row">
-                  <div class="col-lg-6">
-                      <div class="form-control">
-                          <label class="form-label">Doctor 2</label>
+              <div className="row">
+                  <div className="col-lg-6">
+                      <div className="form-control">
+                          <label className="form-label">Doctor 2</label>
                           <button className="nav-link"><Link to="/Doc2Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
-                  <div class="col-lg-6">
-                      <div class="form-control">
-                      <label class="form-label">Doctor 5</label>
+                  <div className="col-lg-6">
+                      <div className="form-control">
+                      <label className="form-label">Doctor 5</label>
                       <button className="nav-link"><Link to="/Doc5Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
               </div>
 
-              <div class="row">
-                  <div class="col-lg-6">
-                      <div class="form-control">
-                          <label class="form-label">Doctor 3</label>
+              <div className="row">
+                  <div className="col-lg-6">
+                      <div className="form-control">
+                          <label className="form-label">Doctor 3</label>
                           <button className="nav-link"><Link to="/Doc3Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
-                  <div class="col-lg-6">
-                      <div class="form-control">
-                        <label class="form-label">Doctor 6</label>
+                  <div className="col-lg-6">
+                      <div className="form-control">
+                        <label className="form-label">Doctor 6</label>
                         <button className="nav-link"><Link to="/Doc6Pacientes">Seleccionar</Link></button>
                       </div>
                   </div>
@@ -162,7 +200,7 @@ class Doctores extends React.Component{
 function Doc1Pacientes(){
   return(
     <div>
-      Pacientes del Doctor Jaime
+      <h1>Pacientes del Doctor Jaime</h1>
     </div>
   )
 }
@@ -171,7 +209,7 @@ function Doc1Pacientes(){
 function Doc2Pacientes(){
   return(
     <div>
-            Pacientes del Doctor Rodrigo
+     <h1>Pacientes del Doctor Rodrigo</h1>
     </div>
   )
 }
@@ -180,7 +218,7 @@ function Doc2Pacientes(){
 function Doc3Pacientes(){
   return(
     <div>
-            Pacientes del Doctor Roberto
+      <h1>Pacientes del Doctor Roberto</h1>
     </div>
   )
 }
@@ -189,7 +227,7 @@ function Doc3Pacientes(){
 function Doc4Pacientes(){
   return(
     <div>
-            Pacientes de la Doctora Sofia
+      <h1>Pacientes de la Doctora Sofía</h1>
     </div>
   )
 }
@@ -198,7 +236,7 @@ function Doc4Pacientes(){
 function Doc5Pacientes(){
   return(
     <div>
-            Pacientes de la Doctora Ana
+      <h1>Pacientes de la Doctora Ana</h1>
     </div>
   )
 }
@@ -207,7 +245,7 @@ function Doc5Pacientes(){
 function Doc6Pacientes(){
   return(
     <div>
-            Pacientes de la Doctora Andrea
+      <h1>Pacientes de la Doctora Andrea</h1>
     </div>
   )
 }
