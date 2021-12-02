@@ -7,7 +7,7 @@ exports.postAgregarPacientes = async (req,res)=>{
     pacientes._id = new mongoose.Types.ObjectId() //se le asigna un id al objeto 
         try{
             // Agregar documento a la coleccion y verifica que no se repita el nombre del paciente
-            const pacientesExs = await Pacientes.exists({Nombre: req.body.Nombre});
+            const pacientesExs = await Pacientes.exists({nombre: req.body.nombre});
             if (!pacientesExs){
                 await pacientes.save()
                 console.log(pacientes)
@@ -32,7 +32,7 @@ exports.getObtenerPacientes = async (req,res)=>{
 exports.postActualizarPacientes = async (req,res)=>{
     // Filtro y cambio para actualizar la info de paciente
     try {
-        await Pacientes.findOneAndUpdate({ Nombre: req.body.Nombre },req.body.actualizar)
+        await Pacientes.findOneAndUpdate({ nombre: req.body.nombre },req.body.actualizar)
         Pacientes.exists()
         console.log("Paciente Actualizado")
         res.json({operacion:"correcta"})
@@ -45,9 +45,9 @@ exports.postActualizarPacientes = async (req,res)=>{
 exports.postBorrarPacientes = async (req,res)=>{
     //Borramos de acuerdo al nombre del paciente
     try{
-        const existe = await Pacientes.exists({ Nombre: req.body.Nombre })
+        const existe = await Pacientes.exists({ nombre: req.body.nombre })
         if (existe){
-            await Pacientes.findOneAndRemove({ Nombre: req.body.Nombre })
+            await Pacientes.findOneAndRemove({ nombre: req.body.nombre })
             console.log("Paciente eliminado")
             res.json({operacion:"correcto"})
         }else{

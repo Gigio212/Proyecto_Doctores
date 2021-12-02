@@ -3,27 +3,27 @@ const { stringify } = require('querystring')
 const Pacientes = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     //Formato con el que se recibira el Json y se tendra la BD 
-        Nombre:{
+    nombre:{
         type: String,
         required: true,
         minlength: 5,
         maxlength: 70
     },
-    Edad:{
+    edad:{
         type: String,
         required: true
     },
-    Naciemiento:{
+    nacimiento:{
         type: String,
         required: true,
         minlength: 2,
         maxlength: 30
     },
-    Enfermedad:{
+    enfermedad:{
         type: String,
         required: true
     },
-    Descripcion:{
+    descripcion:{
         type: String,
         required: true
     }

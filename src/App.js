@@ -18,24 +18,28 @@ class Home extends React.Component{
   constructor(){
     super()
     this.state={
-      info:null
+      nombre:"",
+      edad:"",
+      nacimiento:"",
+      enfermedad:"",
+      descripcion:""
     }
   }
   async comunica(){
     //Consumiendo el servicio POST  
-    const respuesta = await fetch('http://localhost:8080/paciente',{
+    const respuesta = await fetch('http://localhost:8081/Pacientes/agregarPacientes',{
         method:'POST',
         headers:{
           'Content-Type':'application/json'
         },
         body:JSON.stringify({
-          info: this.state/*{
+          info:this.state({
             nombre:"",
             edad:"",
-            descripcion:"",
             nacimiento:"",
-            enfermedad:""
-          }*/
+            enfermedad:"",
+            descripcion:""
+          })
         })
       })
     
@@ -50,28 +54,15 @@ class Home extends React.Component{
         [name]:value
     });
 }
-
+//enviar estado 
 handleSubmit=(e)=>{
     e.preventDefault()
-    this.props.onAgregarPaciente(this.state)
+    axios.post("http://localhost:8081/Pacientes/agregarPacientes")  
     console.log(this.state)
 }
 
-componentDidMount(){
-  axios.get("http://127.0.0.1:8080/pacientes")
-    .then(result=>{
-      console.log(result)
-      this.setState(result.data);
-    })
-}
-
-agregarPaciente(info){
-  this.setState({
-    cartas:[...this.state.cartas,info]
-  })
-}
-
   render(){
+    console.log(this.state)
   return(
     <div>  
       <div className="paciente">
@@ -80,13 +71,13 @@ agregarPaciente(info){
                     <div className="col-lg-6">
                         <div className="form-control">
                             <label className="form-label">Nombre Completo</label>
-                            <input type="text" className="form-control" placeholder="Colocar Nombre" id="Nombre" name="Nombre"></input>
+                            <input type="text" onChange={this.handleInput} className="form-control" placeholder="Colocar Nombre" id="Nombre" name="nombre"></input>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <div className="form-control">
                             <label className="form-control" for="edad">Colocar Edad</label>
-                            <input type="text" className="form-control" placeholder="Colocar tu edad" id="Edad" name="Edad"></input>
+                            <input type="text" onChange={this.handleInput} className="form-control" placeholder="Colocar tu edad" id="Edad" name="edad"></input>
                         </div>
                     </div>
                 </div>
@@ -94,13 +85,13 @@ agregarPaciente(info){
                     <div className="col-lg-6">
                         <div className="form-control">
                             <label className="form-control" for="Lugar de Nacimiento">Lugar de Nacimiento</label>
-                            <input type="text" className="form-control" placeholder="Lugar de Nacimiento" id="Nacimiento" name="Nacimiento"></input>
+                            <input type="text" onChange={this.handleInput} className="form-control" placeholder="Lugar de Nacimiento" id="Nacimiento" name="nacimiento"></input>
                         </div>
                     </div>
                     <div className="col-lg-6">
                         <div className="form-control">
                             <label className="form-control" for="Enfermedad">Enfermedad</label>
-                            <input type="text" className="form-control" placeholder="Colocar Enfermedad" id="Enfermedad" name="Enfermedad"></input>
+                            <input type="text" onChange={this.handleInput} className="form-control" placeholder="Colocar Enfermedad" id="Enfermedad" name="enfermedad"></input>
                         </div>
                     </div>
                 </div>
@@ -108,7 +99,7 @@ agregarPaciente(info){
                     <div className="col-lg-6">
                         <div className="form-control">
                             <label className="form-control" for="Descripcion">Descripcion</label>
-                            <input type="text" className="form-control" placeholder="Colocar Descripcion" id="Descripcion" name="Descripcion"></input>
+                            <input type="text" onChange={this.handleInput} className="form-control" placeholder="Colocar Descripcion" id="Descripcion" name="descripcion"></input>
                         </div>
                     </div>
                 </div>
@@ -143,8 +134,6 @@ class Doctores extends React.Component{
       info:null
     }
   }
-
-  
 
   render(){
     return(
@@ -197,13 +186,34 @@ class Doctores extends React.Component{
   }
 }
 
-function Doc1Pacientes(){
+class Doc1Pacientes extends React.Component{
+  constructor(){
+    super()
+    this.state={
+      nombre:"",
+      edad:"",
+      nacimiento:"",
+      enfermedad:"",
+      descripcion:""
+    }
+  }
+
+  handleSubmit=(e)=>{
+    e.preventDefault()
+    axios.get("http://localhost:8081/Pacientes/obtenerPacientes")
+    console.log(this.state)
+}
+
+  render(){
   return(
     <div>
       <h1>Pacientes del Doctor Jaime</h1>
+      <p>{this.state}</p>
     </div>
   )
 }
+}
+
 
 
 function Doc2Pacientes(){
