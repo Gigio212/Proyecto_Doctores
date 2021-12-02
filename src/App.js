@@ -25,6 +25,7 @@ class Home extends React.Component{
       descripcion:""
     }
   }
+ 
   async comunica(){
     //Consumiendo el servicio POST  
     const respuesta = await fetch('http://localhost:8081/Pacientes/agregarPacientes',{
@@ -55,18 +56,31 @@ class Home extends React.Component{
     });
 }
 //enviar estado 
-handleSubmit=(e)=>{
+async handleSubmit(e){
     e.preventDefault()
-    axios.post("http://localhost:8081/Pacientes/agregarPacientes")  
+    const respuesta = await fetch('http://localhost:8081/Pacientes/agregarPacientes',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(this.state)
+    })
+    
+  
+    //Imprimir lo que responde el servidor
+    const data = await respuesta.json()
+    console.log(data) 
     console.log(this.state)
-}
 
+}
+  
   render(){
     console.log(this.state)
   return(
-    <div>  
+    
+    <div>
       <div className="paciente">
-        <form  className="paciente-body" onSubmit={this.handleSubmit}>
+        <form  className="paciente-body" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="form-control">
@@ -107,10 +121,11 @@ handleSubmit=(e)=>{
                     <div className="col-lg-6">
                             <div className="row">
                                 <div className="col -6">
-                                    <input type="reset" class="btn btn-primary"></input>
+                                    <input type="reset" className="btn btn-primary"></input>
                                 </div>
                                 <div className="col -6">
-                                    <button type="submit" className="nav-link"><Link to="/Doctores">Enviar</Link></button>
+                                    <button type="submit" id="Enviar" className="nav-link">  Enviar</button>
+                                    <button type="submit" oninput="enableBtn()" className="nav-link"><Link to="/Doctores">Seleccionar</Link></button>
                                 </div>
             
                             </div>
@@ -186,32 +201,13 @@ class Doctores extends React.Component{
   }
 }
 
-class Doc1Pacientes extends React.Component{
-  constructor(){
-    super()
-    this.state={
-      nombre:"",
-      edad:"",
-      nacimiento:"",
-      enfermedad:"",
-      descripcion:""
-    }
-  }
-
-  handleSubmit=(e)=>{
-    e.preventDefault()
-    axios.get("http://localhost:8081/Pacientes/obtenerPacientes")
-    console.log(this.state)
-}
-
-  render(){
+function Doc1Pacientes (){
+  
   return(
     <div>
       <h1>Pacientes del Doctor Jaime</h1>
-      <p>{this.state}</p>
     </div>
   )
-}
 }
 
 
