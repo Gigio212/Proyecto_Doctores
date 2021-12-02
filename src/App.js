@@ -1,6 +1,6 @@
-import React/*{useState,useEffect} */from "react";
+import React,{useState,useEffect} from "react";
 import {Routes,Route,Link,Outlet} from 'react-router-dom';
-import axios from 'axios';
+
 
 
 function Encabezado(){
@@ -202,10 +202,23 @@ class Doctores extends React.Component{
 }
 
 function Doc1Pacientes (){
+  useEffect(()=>{
+    console.log('Effect componentDidMount!')
+    fetch('http://localhost:8081/Pacientes/obtenerPacientes')
+      .then(res=>res.json())
+        .then(datos=>{
+          console.log(datos)          
+        })
+        .catch(err=>{
+          console.log("Servidor desconectado")
+          console.log(err)
+        })
+  },[])
   
   return(
     <div>
       <h1>Pacientes del Doctor Jaime</h1>
+
     </div>
   )
 }
